@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'config/theme/app_theme.dart';
+import 'features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
+import 'features/daily_news/presentation/pages/home/daily_news.dart';
+import 'injection_container.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -8,10 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      restorationScopeId: 'app',
-      theme: ThemeData(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
+    return BlocProvider<RemoteArticlesBloc>(
+      create: (context) => sl()..add(const GetArticles()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: theme(),
+        home: const DailyNews(),
+      ),
     );
   }
 }
